@@ -1,18 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Input from './Input.js';
 import Card from './Card.js';
 function App() {
   const [ searchItem, setSearchItem ] = useState("pikachu");
   const [ pokemon, setPokemon ] = useState({});
-
+  const renderCount = useRef(0);
+  
   function updateSearch(text) {
-    console.log('Got in here: ', text);
     setSearchItem(text);
   }
   
   useEffect(() => {
+    renderCount.current+=1; //Does not crash as it doesn't cause a re-render like state does!
+  });
+
+  useEffect(() => {
     async function getPokemon() {
-      // console.log('search: ', searchItem);
       const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${searchItem}`);
       const data = await response.json();
       const pokemonObj = {
@@ -24,13 +27,12 @@ function App() {
     getPokemon();
   }, [searchItem])
   console.log('SearchItem: ', searchItem);
-  // console.log('Pokemon: ', pokemon);
   return (
     <div className="App">
-        {/* <Input  updateSearch={updateSearch}/> */}
-        <input type="text" onChange={(event) => setText(event.target.value)}/>
-        <button onClick={() => updateSearch(text)}>search</button>
+        <Input updateSearch={updateSearch}/>
         <Card pokemon={pokemon}/>
+        <br />
+        <p>Render Count: {renderCount.current}</p>
     </div>
   );
 }
