@@ -1,12 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
 import Card from './Card.js';
 function App() {
-  // const [ searchItem, setSearchItem ] = useState("pikachu");
   const [ pokemon, setPokemon ] = useState({});
   const inputElement = useRef(null);
+  const renderCount = useRef(0);
+
+  useEffect(() => {
+    renderCount.current += 1;
+  })
 
   async function getPokemon(input = "pikachu") {
-    // console.log('search: ', searchItem);
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${input}`);
     const data = await response.json();
     const pokemonObj = {
@@ -25,12 +28,12 @@ function App() {
   }
 
   console.log('SearchItem: ', inputElement);
-  console.log('Pokemon: ', pokemon);
   return (
     <div className="App">
         <input type="text" ref={inputElement}/>
         <button onClick={() => updateSearch(inputElement)}>search</button>
         <Card pokemon={pokemon}/>
+        <p>Render count: {renderCount.current}</p>
     </div>
   );
 }
