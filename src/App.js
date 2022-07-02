@@ -10,10 +10,14 @@ function App() {
     setSearchItem(text);
   }
   
+  //To keep track of how many re-renders happen
   useEffect(() => {
     renderCount.current+=1; //Does not crash as it doesn't cause a re-render like state does!
   });
 
+  /*
+    Initial render happens after component renders it then re-renders as useEffect gets called after initial render!
+  */
   useEffect(() => {
     async function getPokemon() {
       const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${searchItem}`);
@@ -26,7 +30,7 @@ function App() {
     }
     getPokemon();
   }, [searchItem])
-  console.log('SearchItem: ', searchItem);
+
   return (
     <div className="App">
         <Input updateSearch={updateSearch}/>
