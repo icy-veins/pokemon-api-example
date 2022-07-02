@@ -19,16 +19,26 @@ function App() {
     Initial render happens after component renders it then re-renders as useEffect gets called after initial render!
   */
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     async function getPokemon() {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${searchItem}`);
-      const data = await response.json();
-      const pokemonObj = {
-        title: data.name,
-        img: data.sprites.front_default
-      };
-      setPokemon(pokemonObj);
+      try {
+        const response = await fetch(`http://pokeapi.co/api/v2/pokemon/${searchItem}`, {signal});
+        const data = await response.json();
+        const pokemonObj = {
+          title: data.name,
+          img: data.sprites.front_default
+        };
+        setPokemon(pokemonObj);
+      } catch(err) {
+        console.log('Error occurred in fetch request: ', err);
+      }
     }
     getPokemon();
+    return () => {
+      controller.abort('Clean up fetch request');
+    }
   }, [searchItem])
 
   return (
