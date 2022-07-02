@@ -1,4 +1,7 @@
+import { memo } from 'react';
+
 function Card({pokemon}) {
+    console.log('rendered: ', pokemon)
     return (
         <div>
             <h1>Name: {pokemon.title}</h1>
@@ -7,4 +10,4 @@ function Card({pokemon}) {
     )
 }
 
-export default Card;
+export default memo(Card);
