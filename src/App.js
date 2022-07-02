@@ -14,8 +14,8 @@ function App() {
     };
     setPokemon(pokemonObj);
   }
+  
   function updateSearch(text) {
-    // setSearchItem(text);
     getPokemon(text);
   }
   
