@@ -1,4 +1,4 @@
-import { memo } from 'react';
+// import { memo } from 'react';
 
 function Card({pokemon}) {
     console.log('rendered: ', pokemon)
@@ -10,4 +10,4 @@ function Card({pokemon}) {
     )
 }
 
-export default memo(Card);
+export default Card;

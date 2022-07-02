@@ -24,6 +24,7 @@ function App() {
     renderCount.current+=1; //Does not crash as it doesn't cause a re-render like state does!
   });
 
+  //Fetch data for first load (re-renders)
   useEffect(() => {
     getPokemon()
   }, [])
